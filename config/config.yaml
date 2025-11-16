@@ -1,0 +1,27 @@
+env: local
+storage_path: "./storage/storage.db"
+
+server:
+  port: 8080
+  readTimeout: 5s
+  writeTimeout: 5s
+  idleTimeout: 30s
+
+database:
+  host: "localhost"
+  port: 5432
+  user: "appuser"
+  password: "apppassword"
+  name: "pull_requests_db"
+  sslMode: "disable"
+  maxOpenConns: 10
+  maxIdleConns: 5
+  connMaxLifetime: 30m
+
+logging:
+  level: "info"
+  format: "json"
+
+app:
+  reviewerCount: 2
+  randomSeed: 0

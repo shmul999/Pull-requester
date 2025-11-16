@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: pull_requests_db
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser -d pull_requests_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ENV=docker
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
